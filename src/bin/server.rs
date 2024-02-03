@@ -1,15 +1,10 @@
 use clap::Parser;
-use serde_json::Value;
 use std::io::{BufRead, BufReader, Read, Result, Write};
 use std::net::{TcpListener, TcpStream};
-use std::ops::Add;
 use std::process::{Command, Stdio};
 use std::thread;
 
 use remote_cmd::{CommandRequest, OutputType, StreamLine};
-
-// I should explore redirecting the childs stdout and stderr to the socket
-// on the file descriptor level
 
 #[derive(Parser)]
 struct Cli {
@@ -81,13 +76,16 @@ fn execute_command(command_request: &CommandRequest, mut stream: &TcpStream) -> 
     let status = child.wait()?;
 
     let final_message = StreamLine {
-        line: format!("{}", status),
+        line: "Process Exited".to_string(),
         output_type: OutputType::Exit,
         is_final: true,
+        exit_code: status.code(),
     };
 
     let final_json = serde_json::to_string(&final_message)?;
     stream.write_all(final_json.as_bytes())?;
+    stream.write_all(b"\n")?;
+    stream.flush()?;
 
     Ok(())
 }
@@ -102,6 +100,7 @@ fn stream_write_lines<R: Read>(
             line: line?,
             output_type: output_type.clone(),
             is_final: false,
+            exit_code: None
         };
 
         let serialized = serde_json::to_string(&message)?;

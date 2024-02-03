@@ -1,7 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-// TODO: TEST DEBUG
-
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum OutputType {
     Stdout,
@@ -20,7 +18,7 @@ pub struct StreamLine {
     pub line: String,
     pub output_type: OutputType,
     pub is_final: bool,
-    //pub exit_code: Option<i32>,
+    pub exit_code: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

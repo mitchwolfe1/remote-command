@@ -4,7 +4,7 @@ use remote_cmd::RemoteCommand;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let remote_command = RemoteCommand::new("bash")
         .arg("-c")
-        .arg("echo Hello $NAME@$HOST; ping 8.8.8.8 -c 5")
+        .arg("echo Hello $NAME@$HOST; ping 8.8.88..8 -c 5")
         .env("NAME", "grok")
         .env("HOST", "remote.server");
 
@@ -23,6 +23,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             break;
         }
     }
+
+    let status = remote_child.wait().await?;
+    println!("Process exited with code {}", status);
 
     Ok(())
 }
