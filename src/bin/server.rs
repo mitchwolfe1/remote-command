@@ -78,7 +78,6 @@ fn execute_command(command_request: &CommandRequest, mut stream: &TcpStream) -> 
     let final_message = StreamLine {
         line: "Process Exited".to_string(),
         output_type: OutputType::Exit,
-        is_final: true,
         exit_code: status.code(),
     };
 
@@ -99,7 +98,6 @@ fn stream_write_lines<R: Read>(
         let message = StreamLine {
             line: line?,
             output_type: output_type.clone(),
-            is_final: false,
             exit_code: None
         };
 

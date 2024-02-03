@@ -17,7 +17,6 @@ pub struct CommandRequest {
 pub struct StreamLine {
     pub line: String,
     pub output_type: OutputType,
-    pub is_final: bool,
     pub exit_code: Option<i32>,
 }
 
