@@ -81,8 +81,8 @@ fn execute_command(command_request: &CommandRequest, mut stream: &TcpStream) -> 
     let status = child.wait()?;
 
     let final_message = StreamLine {
-        line: format!("Process exited with status: {}\n", status),
-        output_type: OutputType::Stdout,
+        line: format!("{}", status),
+        output_type: OutputType::Exit,
         is_final: true,
     };
 
@@ -98,15 +98,15 @@ fn stream_write_lines<R: Read>(
     output_type: OutputType,
 ) -> Result<()> {
     for line in reader.lines() {
-        let line = line?.add("\n");
         let message = StreamLine {
-            line,
+            line: line?,
             output_type: output_type.clone(),
             is_final: false,
         };
 
         let serialized = serde_json::to_string(&message)?;
         stream.write_all(serialized.as_bytes())?;
+        stream.write_all(b"\n")?;
     }
     Ok(())
 }
