@@ -4,7 +4,7 @@ use remote_cmd::RemoteCommand;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let remote_command = RemoteCommand::new("bash")
         .arg("-c")
-        .arg("echo Hello $NAME@$HOST; ping 8.8.88..8 -c 5")
+        .arg("echo Hello $NAME@$HOST; ping 8.8.8.8 -c 5")
         .env("NAME", "grok")
         .env("HOST", "remote.server");
 
@@ -12,16 +12,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     while let Some(stream_line) = remote_child.read_stdout().await? {
         println!("stdout> {}", stream_line.line);
-        if stream_line.is_final {
-            break;
-        }
     }
 
     while let Some(stream_line) = remote_child.read_stderr().await? {
         println!("stderr> {}", stream_line.line);
-        if stream_line.is_final {
-            break;
-        }
     }
 
     let status = remote_child.wait().await?;
