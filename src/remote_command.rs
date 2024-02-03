@@ -1,8 +1,8 @@
-use crate::protocol::{CommandRequest};
+use crate::protocol::CommandRequest;
 use crate::remote_process::RemoteProcess;
-use serde_json::{to_string};
+use serde_json::to_string;
 use std::io::{Error, ErrorKind};
-use tokio::io::{AsyncWriteExt};
+use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
 
 pub struct RemoteCommand {

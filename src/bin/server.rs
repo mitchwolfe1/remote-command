@@ -98,7 +98,7 @@ fn stream_write_lines<R: Read>(
         let message = StreamLine {
             line: line?,
             output_type: output_type.clone(),
-            exit_code: None
+            exit_code: None,
         };
 
         let serialized = serde_json::to_string(&message)?;
