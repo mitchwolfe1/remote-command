@@ -27,7 +27,7 @@ This structure allows for a flexible representation of command execution request
 ###  `Struct remote_cmd::RemoteCommand`
 ```pub struct RemoteCommand { /* private fields */ }```
 
-### Implementations
+### Implementation
 `pub fn new(program: &str) -> RemoteCommand`
 > Constructs a new RemoteCommand for launching the program at path `program`, with default configuration:
 > * No arguments to the program
@@ -54,7 +54,7 @@ This structure allows for a flexible representation of command execution request
 RemoteProcess provides methods to interact with the process running on the remote server. Under the hood, RemoteProcess utilizes tokio's multi-producer, single-consumer (mpsc) channels for stdout, stderr, and exit signaling. Since the stdout, stderr, and exit codes of the remote process are multiplexed and sent down a single socket, we need a way to demultiplex these messages so users can consume output types of their choosing. I chose to use mpsc channels because of their asynchronous design, which allows for non-blocking reads and writes. Standard buffers or deque do not inherently support asynchronous operations, which means I'd need additional mechanisms to prevent blocking behavior, complicating the design. RemoteProcess spawns a new asynchronous task to read from the TcpStream, process each `StreamLine`, and dispatch them to their respective channels. 
 
 
-## Implementation
+### Implementations
 `pub async fn read_stdout(&mut self) -> Result<Option<StreamLine>, Box<dyn std::error::Error>>`
 > Asynchronously reads a line from the standard output of the remote process. If the process has closed its standard output, resulting in no more lines to read, the function returns None. Otherwise, it returns the line wrapped in Some.
 
