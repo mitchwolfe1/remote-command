@@ -21,7 +21,7 @@ pub struct StreamLine {
 }
 ```
 
-This structure allows for a flexible representation of command execution requests and their outputs. The CommandRequest struct captures all necessary information to execute a command on the server, including the program name, optional arguments, and environment variables. The StreamLine struct is designed to encapsulate the output of the executed command, distinguishing between standard output, standard error, and exit codes
+The CommandRequest struct captures all necessary information to execute a command on the server, including the program name, optional arguments, and environment variables. The StreamLine struct is designed to encapsulate the output of the executed command, distinguishing between standard output, standard error, and exit codes
 
 ## Remote Command
 ###  `Struct remote_cmd::RemoteCommand`
