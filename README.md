@@ -32,14 +32,14 @@ The CommandRequest struct captures all necessary information to execute a comman
 > Constructs a new RemoteCommand for launching the program at path `program`, with default configuration:
 > * No arguments to the program
 > * Inherit the remote process’s environment
-> * Inherit the current process’s working directory
+> * Inherit the remote process’s working directory
 
 
 `pub fn arg(mut self, arg: &str) -> RemoteCommand `
 > Adds an argument to pass to the program. These arguments are stackable.
 
 
-`pub fn env(mut self, key: &str, value: &str) -> Self `
+`pub fn env(mut self, key: &str, value: &str) -> RemoteCommand `
 > Inserts or updates an environment variable. This will replace the remote process environment.
 
 `pub async fn spawn(self, address: &str) -> Result<RemoteProcess, Box<dyn std::error::Error>>`
@@ -69,6 +69,8 @@ RemoteProcess provides methods to interact with the process running on the remot
 * **TCP Server Setup**: Establishes a TcpListener to asynchronously accept incoming connections. For each connection, it spawns a new thread to handle the communication. I use TCP instead of UDP here because TCP ensures ordered, error-free, packet delivery. I also considered using gRPC or HTTP, but there's too much overhead with these approaches which would increase latency and complicate the code. 
 * **Command Execution**: Upon receiving a command request (serialized as JSON), it deserializes the request into a CommandRequest struct, executes the specified command using `std::process::Command`, and captures the command's stdout and stderr streams.
 * **Streaming Output**: Streams the command's output back to the client in real-time, wrapping each line of output in a StreamLine struct (also serialized as JSON). This includes distinguishing between stdout and stderr, as well as sending a final message indicating the command's exit status.
+
+**Usage:** `cargo run --bin server <IP_ADDR> <PORT>`
 - - - -
 ## Example Usage
 ```
