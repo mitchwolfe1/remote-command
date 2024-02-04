@@ -5,9 +5,9 @@ use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
 
 pub struct RemoteCommand {
-    pub program: String,
-    pub args: Option<Vec<String>>,
-    pub env: Option<Vec<(String, String)>>,
+    program: String,
+    args: Option<Vec<String>>,
+    env: Option<Vec<(String, String)>>,
 }
 
 impl RemoteCommand {

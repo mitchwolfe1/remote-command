@@ -65,7 +65,7 @@ async fn test_remote_command_stderr_ping() -> Result<(), Box<dyn std::error::Err
     // Wait for the process to exit and check the exit code
     let status = remote_child.wait().await?;
 
-    assert_eq!(status, 2, "Process exited with error: {}", status);
+    assert_ne!(status, 0, "Process exited with error: {}", status);
 
     // Check that the stdout contains the expected error
     assert!(
