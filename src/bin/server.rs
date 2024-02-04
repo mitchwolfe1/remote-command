@@ -6,6 +6,7 @@ use std::thread;
 
 use remote_cmd::{CommandRequest, OutputType, StreamLine};
 
+// USAGE: server <IP_ADDR> <PORT>
 #[derive(Parser)]
 struct Cli {
     ip_addr: String,
