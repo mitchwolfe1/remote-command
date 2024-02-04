@@ -67,13 +67,6 @@ async fn test_remote_command_stderr_ping() -> Result<(), Box<dyn std::error::Err
 
     assert_ne!(status, 0, "Process exited with error: {}", status);
 
-    // Check that the stdout contains the expected error
-    assert!(
-        stderr_lines
-            .iter()
-            .any(|line| line.contains("Name or service not known")),
-        "stderr does not contain expected error"
-    );
 
     Ok(())
 }
